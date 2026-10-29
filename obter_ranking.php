@@ -1,7 +1,4 @@
 <?php
-/**
- * Endpoint para obter o TOP 10 do ranking
- */
 header('Content-Type: application/json; charset=utf-8');
 require_once 'conexao.php';
 
@@ -26,3 +23,4 @@ try {
         'message' => 'Erro ao consultar ranking: ' . $e->getMessage()
     ]);
 }
+?>

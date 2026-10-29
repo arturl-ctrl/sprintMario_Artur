@@ -1,8 +1,6 @@
 <?php
-
 require_once 'conexao.php';
 
-// Busca inicial do ranking para carregar rápido na primeira abertura
 $rankingInicial = [];
 try {
     $stmt = $pdo->query("
@@ -13,18 +11,16 @@ try {
     ");
     $rankingInicial = $stmt->fetchAll();
 } catch (Exception $e) {
-    // Caso o banco ainda não possua registros
     $rankingInicial = [];
 }
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>$
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mario do TurTur🤪</title>
-    
+    <title>Tur Tur BROS🤪</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -40,55 +36,46 @@ try {
                 <span class="label">PONTOS:</span>
                 <span class="value" id="score-display">0</span>
             </div>
-
             <div class="level-info">
                 <span class="label">NÍVEL:</span>
                 <span class="value" id="level-display">1</span>
             </div>
-
-
         </header>
 
-        
         <main class="game-board" id="game-board">
-            <img src="assets/clouds.png" class="clouds" alt="Nuvens">
-            <img src="assets/mario.gif" class="mario" alt="Mario">
-            <img src="assets/pipe.png" class="pipe" alt="Cano">
-            <img src="assets/item.png" class="coletavel" id="coletavel" alt="Item Coletável" style="display: none;">
-
+            <img src="clouds.png" class="clouds" alt="Nuvens">
+            <img src="subzero.png" class="mario" alt="Jogador">
+            <img src="pipe.png" class="pipe" alt="Obstáculo">
+            <img src="item.png" class="coletavel" id="coletavel" alt="Item Coletável" style="display: none;">
             <span class="jump-tip" id="jump-tip">Pressione ESPAÇO ou clique para pular</span>
         </main>
     </div>
 
-    <!-- 1. TELA DE INÍCIO / INSERIR NOME -->
     <div class="modal-overlay active" id="start-modal">
         <div class="modal-card">
             <div class="modal-header">
-                <h1 class="game-title">MARIO JUMP</h1>
-                <p class="game-subtitle">Corra, desvie dos canos e dispute o topo do ranking!</p>
+                <h1 class="game-title">Tur Tur BROS🤪</h1>
+                <p class="game-subtitle">Escolha seu personagem, desvie dos perigos e alcance o topo do ranking!</p>
             </div>
 
             <form class="start-form" id="start-form">
-
-                <!-- CAIXA DE SELEÇÃO DE PERSONAGENS -->
-            <div class="character-selection" style="margin: 15px 0; text-align: center;">
-                <label style="display: block; font-size: 13px; margin-bottom: 10px; color: #f1c40f; font-weight: bold;">ESCOLHA SEU PERSONAGEM:</label>
-                <div style="display: flex; justify-content: center; gap: 12px;">
-                    <button type="button" class="btn-char" data-char="subzero" style="padding: 8px; border: 2px solid #27ae60; background: #222; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 80px;">
-                        <img src="https://icons8.com" alt="Subzero" style="width: 35px; height: 35px;">
-                        <span style="font-size: 11px; color: white; margin-top: 5px; font-weight: bold;">Sub-Zero</span>
-                    </button>
-                    <button type="button" class="btn-char" data-char="coala" style="padding: 8px; border: 2px solid #555; background: #222; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 80px;">
-                        <img src="https://icons8.com" alt="Coala" style="width: 35px; height: 35px;">
-                        <span style="font-size: 11px; color: white; margin-top: 5px; font-weight: bold;">Coala</span>
-                    </button>
-                    <button type="button" class="btn-char" data-char="professor" style="padding: 8px; border: 2px solid #555; background: #222; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; align-items: center; width: 80px;">
-                        <img src="https://icons8.com" alt="Professor" style="width: 35px; height: 35px;">
-                        <span style="font-size: 11px; color: white; margin-top: 5px; font-weight: bold;">Robertin da TI</span>
-                    </button>
+                <div class="character-selection">
+                    <label class="selection-label">ESCOLHA SEU PERSONAGEM:</label>
+                    <div class="char-options">
+                        <button type="button" class="btn-char" data-char="subzero">
+                            <img src="subzero.png" alt="Subzero">
+                            <span>Sub-Zero</span>
+                        </button>
+                        <button type="button" class="btn-char" data-char="kratos">
+                            <img src="kratos.png" alt="Kratos">
+                            <span>Kratos</span>
+                        </button>
+                        <button type="button" class="btn-char" data-char="roberto">
+                            <img src="roberto.jpg" alt="Roberto">
+                            <span>Robertin da TI</span>
+                        </button>
+                    </div>
                 </div>
-            </div>
-
 
                 <div class="input-group">
                     <label for="player-input">DIGITE SEU NOME:</label>
@@ -115,7 +102,6 @@ try {
         </div>
     </div>
 
-    <!-- 2. TELA DE GAME OVER & RANKING -->
     <div class="modal-overlay" id="gameover-modal">
         <div class="modal-card gameover-card">
             <div class="modal-header">
@@ -127,7 +113,6 @@ try {
                 </div>
             </div>
 
-            <!-- Tabela com o TOP 10 -->
             <div class="ranking-container">
                 <h3 class="ranking-title">🏆 TOP 10 MELHORES PONTUAÇÕES</h3>
                 <div class="table-wrapper">
@@ -167,7 +152,6 @@ try {
         </div>
     </div>
 
-   
-    <script src="script.js" defer></script>
+    <script src="script.js?v=3.0" defer></script>
 </body>
 </html>

@@ -1,7 +1,4 @@
 <?php
-/**
- * Endpoint para salvar a pontuação do jogador no banco de dados
- */
 header('Content-Type: application/json; charset=utf-8');
 require_once 'conexao.php';
 
@@ -11,31 +8,22 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Aceita requisições tanto em formato JSON quanto form-data / POST padrão
-$input = json_decode(file_get_contents('php://input'), true);
-if (!$input) {
-    $input = $_POST;
-}
-
-$nome = isset($input['nome']) ? trim($input['nome']) : '';
-$pontos = isset($input['pontos']) ? (int)$input['pontos'] : 0;
+$nome = isset($_POST['nome']) ? trim($_POST['nome']) : '';
+$pontos = isset($_POST['pontos']) ? (int)$_POST['pontos'] : 0;
 
 if (empty($nome)) {
     $nome = 'Jogador Anônimo';
 }
 
-// Limita tamanho do nome a 40 caracteres
 $nome = mb_substr($nome, 0, 40);
 
 try {
-    // Insere o registro no banco com Prepared Statement
     $stmt = $pdo->prepare("INSERT INTO ranking (nome, pontos) VALUES (:nome, :pontos)");
     $stmt->execute([
         ':nome' => $nome,
         ':pontos' => $pontos
     ]);
 
-    // Busca os 10 melhores colocados atualizados
     $stmtRanking = $pdo->prepare("
         SELECT id, nome, pontos, DATE_FORMAT(data_registro, '%d/%m/%Y %H:%i') as data 
         FROM ranking 
@@ -57,3 +45,4 @@ try {
         'message' => 'Erro ao salvar no banco: ' . $e->getMessage()
     ]);
 }
+?>
